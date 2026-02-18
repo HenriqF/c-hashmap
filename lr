@@ -1,0 +1,5 @@
+gcc hash.c -o hash -Wall -Wextra
+
+.\hash
+
+rm hash
