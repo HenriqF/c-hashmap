@@ -2,6 +2,8 @@
 #define HASH
 
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 typedef enum{
     INT,
@@ -25,8 +27,11 @@ typedef struct HashMap{
 } HashMap;
 
 void initHashmap(HashMap* HashMap);
+
 size_t getBucket(char* string, size_t buckets);
-void putHash(HashMap* HashMap, char* key, void* value, ValueType value_type);
+void setKey(HashMap* HashMap, char* key, void* value, ValueType value_type);
+void removeKey(HashMap* HashMap, char* key);
+
 void getValue(HashMap HashMap, char* key, void** value, ValueType* value_type);
 
 #endif

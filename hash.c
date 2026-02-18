@@ -36,20 +36,19 @@ void initHashmap(HashMap* HashMap){
 
 }
 
+
+
 size_t getBucket(char* string, size_t buckets){
     unsigned long hash = 5381;
 
     int c;
-    while ((c = *string++)){
-        hash = ((hash << 5) + hash) + c;
-    }
+    while ((c = *string++)) hash = ((hash << 5) + hash) + c;
 
     unsigned long bucket = hash % buckets;
     return (size_t)bucket;
 }
 
-
-void putHash(HashMap* HashMap, char* key, void* value, ValueType value_type){
+void setKey(HashMap* HashMap, char* key, void* value, ValueType value_type){
     size_t key_bucket = getBucket(key, HashMap->buckets);
     HashItem* item = &(HashMap->HashItems[key_bucket]);
 
@@ -76,6 +75,29 @@ void putHash(HashMap* HashMap, char* key, void* value, ValueType value_type){
     }
 }
 
+void removeKey(HashMap* HashMap, char* key){
+    size_t key_bucket = getBucket(key, HashMap->buckets);
+    HashItem* item = &(HashMap->HashItems[key_bucket]);
+    HashItem* last_item = item;
+
+    while (item->next != NULL){
+        if (strcmp(item->key, key) == 0){
+            if (item == last_item){
+                HashItem* cabeca = item;
+                HashMap->HashItems[key_bucket] = *item->next;
+                return;
+            }
+            last_item->next = item->next;
+            free(item);
+            return;
+        }
+        last_item = item;
+        item = item->next;
+    }
+}
+
+
+
 void getValue(HashMap HashMap, char* key, void** value, ValueType* value_type){
     size_t key_bucket = getBucket(key, HashMap.buckets);
     HashItem* item = &(HashMap.HashItems[key_bucket]);
@@ -93,43 +115,46 @@ void getValue(HashMap HashMap, char* key, void** value, ValueType* value_type){
     //printf("sem resultados.");
 }
 
-
 void search(HashMap HashMap, char* key){
     
     void* result = NULL;
     ValueType rvt = NONE;
     getValue(HashMap, key, &result, &rvt);
     if (result == NULL){
-        printf("nao encontrado");
+        printf("nao encontrado\n");
     }
 
     else if (rvt == INT){
-        printf("encontrado: %d", *(int*)result);
+        printf("encontrado: %d\n", *(int*)result);
     }
     else if (rvt == FLOAT){
-        printf("encontrado: %f", *(float*)result);
+        printf("encontrado: %f\n", *(float*)result);
     }
     else if (rvt == CHAR){
-        printf("encontrado: %c", *(char*)result);
+        printf("encontrado: %c\n", *(char*)result);
     }
     else if (rvt == CHARA){
-        printf("encontrado: %s", *(char**)result);
+        printf("encontrado: %s\n", *(char**)result);
     }
 }
 
-int main(){
 
+
+int main(){
     HashMap hm = {100, NULL};
     initHashmap(&hm);
 
     int value = 20;
+    char* string = "sigmdfdsafsadf";
     
-    putHash(&hm, "wow", &value, INT);
+    setKey(&hm, "wow", &value, INT);
     search(hm, "wow");
-    //putHash(&hm, "porra", &value, INT);
-    
-
-
+    setKey(&hm, "wow", &string, CHARA);
+    search(hm, "wow");
+    removeKey(&hm, "wow");
+    search(hm, "wow");
+    setKey(&hm, "wow", &value, INT);
+    search(hm, "wow");
 
     return 0;
 }
