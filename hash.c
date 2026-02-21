@@ -141,27 +141,27 @@ void search(HashMap HashMap, char* key){
 
 
 
-int main(){
-    HashMap hm = {100, 0, NULL};
-    initHashmap(&hm);
+// int main(){
+//     HashMap hm = {100, 0, NULL};
+//     initHashmap(&hm);
 
-    int value = 20;
-    char* string = "teste";
+//     int value = 20;
+//     char* string = "teste";
     
-    setKey(&hm, "int", &value, INT);
-    setKey(&hm, "chara", &string, CHARA);
+//     setKey(&hm, "int", &value, INT);
+//     setKey(&hm, "chara", &string, CHARA);
 
-    printf("pares: %lld\n", hm.pairs);
-    search(hm, "wow");
-    search(hm, "int");
-    search(hm, "chara");
+//     printf("pares: %lld\n", hm.pairs);
+//     search(hm, "wow");
+//     search(hm, "int");
+//     search(hm, "chara");
 
-    setKey(&hm, "int", &string, CHARA);
-    search(hm, "int");
+//     setKey(&hm, "int", &string, CHARA);
+//     search(hm, "int");
 
-    removeKey(&hm, "chara");
-    search(hm, "chara");
-    printf("pares: %lld\n", hm.pairs);
+//     removeKey(&hm, "chara");
+//     search(hm, "chara");
+//     printf("pares: %lld\n", hm.pairs);
 
-    return 0;
-}
+//     return 0;
+// }
