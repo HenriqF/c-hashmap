@@ -21,6 +21,7 @@ typedef struct HashItem{
 
 typedef struct HashMap{
     size_t buckets;
+    size_t pairs;
     HashItem* HashItems;
 } HashMap;
 
@@ -69,7 +70,7 @@ void setKey(HashMap* HashMap, char* key, void* value, ValueType value_type){
         HashItem* new_item = malloc(sizeof(HashItem));
         *new_item = (HashItem){NULL, NULL, NONE, NULL};
         item->next = new_item;
-
+        HashMap->pairs++;
         //printf("criacao\n");
         return;
     }
@@ -82,8 +83,8 @@ void removeKey(HashMap* HashMap, char* key){
 
     while (item->next != NULL){
         if (strcmp(item->key, key) == 0){
+            HashMap->pairs--;
             if (item == last_item){
-                HashItem* cabeca = item;
                 HashMap->HashItems[key_bucket] = *item->next;
                 return;
             }
@@ -141,20 +142,26 @@ void search(HashMap HashMap, char* key){
 
 
 int main(){
-    HashMap hm = {100, NULL};
+    HashMap hm = {100, 0, NULL};
     initHashmap(&hm);
 
     int value = 20;
-    char* string = "sigmdfdsafsadf";
+    char* string = "teste";
     
-    setKey(&hm, "wow", &value, INT);
+    setKey(&hm, "int", &value, INT);
+    setKey(&hm, "chara", &string, CHARA);
+
+    printf("pares: %lld\n", hm.pairs);
     search(hm, "wow");
-    setKey(&hm, "wow", &string, CHARA);
-    search(hm, "wow");
-    removeKey(&hm, "wow");
-    search(hm, "wow");
-    setKey(&hm, "wow", &value, INT);
-    search(hm, "wow");
+    search(hm, "int");
+    search(hm, "chara");
+
+    setKey(&hm, "int", &string, CHARA);
+    search(hm, "int");
+
+    removeKey(&hm, "chara");
+    search(hm, "chara");
+    printf("pares: %lld\n", hm.pairs);
 
     return 0;
 }

@@ -9,6 +9,7 @@ typedef enum{
     INT,
     FLOAT,
     CHAR,
+    CHARA,
     NONE,
 }ValueType;
 
@@ -23,6 +24,7 @@ typedef struct HashItem{
 
 typedef struct HashMap{
     size_t buckets;
+    size_t pairs;
     HashItem* HashItems;
 } HashMap;
 
