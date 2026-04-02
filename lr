@@ -1,5 +1,4 @@
-gcc hash.c -o hash -Wall -Wextra
+gcc set.c -o set -Wall -Wextra
+.\set
 
-.\hash
-
-rm hash
+rm set
